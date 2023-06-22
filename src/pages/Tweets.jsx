@@ -8,6 +8,7 @@ import { LoadMoreBtn } from 'components/LoadMoreBtn/LoadMoreBtn';
 const Tweets = () => {
   const [filter, setFilter] = useState('all');
   const [params, setParams] = useState(3);
+
   const handleLoadMore = () => {
     setParams(prevState => (prevState < 12 ? prevState + 3 : prevState));
   };

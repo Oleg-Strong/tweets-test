@@ -6,18 +6,23 @@ import { TweetsItem } from 'components/TweetsItem/TweetsItem';
 import { getStoredTweets } from 'utils/getStoredTweets';
 import { updateTweets } from 'utils/updateTweets';
 import { setStoredTweets } from 'utils/setStoredTweets';
+import { Loader } from 'components/Loader/Loader';
 
 export const TweetsList = ({ filterValue, loadParams }) => {
   const [tweets, setTweets] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     (async () => {
+      setIsLoading(true);
       try {
         const response = await getTweets();
         updateTweets(response);
         setTweets(getStoredTweets());
       } catch (error) {
         console.log(error.message);
+      } finally {
+        setIsLoading(false);
       }
     })();
   }, []);
@@ -40,17 +45,21 @@ export const TweetsList = ({ filterValue, loadParams }) => {
   return (
     <>
       <Title>Follow the tweeters</Title>
-      <ListWrapper>
-        {filteredTweets.map(tweet => {
-          return (
-            <TweetsItem
-              key={tweet.id}
-              tweet={tweet}
-              isFollow={toggleFollowing}
-            />
-          );
-        })}
-      </ListWrapper>
+      {isLoading ? (
+        <Loader />
+      ) : (
+        <ListWrapper>
+          {filteredTweets.map(tweet => {
+            return (
+              <TweetsItem
+                key={tweet.id}
+                tweet={tweet}
+                isFollow={toggleFollowing}
+              />
+            );
+          })}
+        </ListWrapper>
+      )}
     </>
   );
 };
