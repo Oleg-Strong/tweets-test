@@ -14,14 +14,12 @@ import {
 } from './TweetsItem.styled';
 
 export const TweetsItem = ({
-  id,
-  avatar,
-  tweets,
-  followers,
-  filterStatus,
+  tweet,
+
   isFollow,
 }) => {
-  const quantityFollowers = (filterStatus.following ? 1 : 0) + followers;
+  const { id, avatar, tweets, followers, following } = tweet;
+  const quantityFollowers = (following ? 1 : 0) + followers;
   return (
     <Wrapper>
       <Logo>
@@ -45,9 +43,9 @@ export const TweetsItem = ({
       <FollowBtn
         type="buttom"
         onClick={() => isFollow(id)}
-        isfollowing={filterStatus.following}
+        isfollowing={following}
       >
-        {filterStatus.following ? 'Following' : 'Follow'}
+        {following ? 'Following' : 'Follow'}
       </FollowBtn>
     </Wrapper>
   );

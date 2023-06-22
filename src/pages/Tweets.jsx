@@ -7,13 +7,9 @@ import { LoadMoreBtn } from 'components/LoadMoreBtn/LoadMoreBtn';
 
 const Tweets = () => {
   const [filter, setFilter] = useState('all');
-  const [params, setParams] = useState({ page: 1, limit: 6 });
+  const [params, setParams] = useState(3);
   const handleLoadMore = () => {
-    setParams(prevState =>
-      prevState.limit < 12
-        ? { ...prevState, limit: prevState.limit + 3 }
-        : prevState
-    );
+    setParams(prevState => (prevState < 12 ? prevState + 3 : prevState));
   };
   const handleChange = e => {
     setFilter(e.target.value);
@@ -23,7 +19,7 @@ const Tweets = () => {
       <Container>
         <Navigator filterValue={handleChange} />
         <TweetsList filterValue={filter} loadParams={params} />
-        {params.limit < 12 ? <LoadMoreBtn onLoadMore={handleLoadMore} /> : null}
+        {params < 12 ? <LoadMoreBtn onLoadMore={handleLoadMore} /> : null}
       </Container>
     </Section>
   );
